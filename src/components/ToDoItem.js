@@ -1,33 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import ToDoForm from "./ToDoForm";
 
-const ToDoItem = ({ id, text, importance }) => {
+const ToDoItem = ({ id, text, importance, isComplete, completeToDo, editToDo, deleteToDoItem }) => {
 	const importanceColor = () => {
-		if (importance == "high") {
-			return "red";
+		if (isComplete) {
+			return "#808080";
+		} else {
+			if (importance === "high") {
+				return "red";
+			}
+			if (importance === "medium") {
+				return "orange";
+			}
+			return "yellow";
 		}
-		if (importance == "medium") {
-			return "orange";
-		}
-		return "yellow";
 	};
+
 	const styles = {
 		container: {
 			border: "1px solid black",
-			display: "flex",
-			width: "50%",
+			width: "60%",
 			margin: "auto",
-			justifyContent: "center",
 			background: importanceColor(),
+		},
+		buttonContainer: {
+			display: "flex",
+			justifyContent: "right",
 		},
 		header: {
 			textAlign: "center",
 		},
 	};
+	const [edit, setEdit] = useState({
+		id: null,
+		text: "",
+		importance: "",
+	});
+
+	const submitUpdate = (value) => {
+		editToDo(edit.id, value);
+		setEdit({ id: null, value: "", eagerness: "" });
+	};
+	if (edit.id) {
+		return <ToDoForm edit={edit} onSubmit={submitUpdate} />;
+	}
 	return (
 		<div style={styles.container}>
 			<h3>{text}</h3>
-			<button>Edit Item</button>
-			<button>Complete</button>
+			<div style={styles.buttonContainer}>
+				<button onClick={() => setEdit({ id: id, text: text, importance: importance })}>Edit Item</button>
+				<button onClick={() => completeToDo(id)}>Complete</button>
+				<button onClick={() => deleteToDoItem(id)}>Delete</button>
+			</div>
 		</div>
 	);
 };

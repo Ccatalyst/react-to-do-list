@@ -36,17 +36,28 @@ const ToDoForm = (props) => {
 		}));
 	};
 	return (
-		<div style={styles.container}>
-			<form onSubmit={handleSubmit}>
-				<input type="text" placeholder="Add To Do" value={input.text} name="text" onChange={handleChange} style={styles.input}></input>
-				<select name="importance" value={input.importance} onChange={handleChange}>
-					<option value="low">Low</option>
-					<option value="medium">Medium</option>
-					<option value="high">High</option>
-				</select>
-				<button onClick={handleSubmit}>Add to List</button>
-			</form>
-		</div>
+		<>
+			{props.edit ? <h3>Update Item</h3> : ""}
+
+			<div style={styles.container}>
+				<form onSubmit={handleSubmit}>
+					<input
+						type="text"
+						placeholder={props.edit ? "Update Item" : "Add To Do"}
+						value={input.text}
+						name="text"
+						onChange={handleChange}
+						style={styles.input}
+					></input>
+					<select name="importance" value={input.importance} onChange={handleChange}>
+						<option value="low">Low</option>
+						<option value="medium">Medium</option>
+						<option value="high">High</option>
+					</select>
+					<button onClick={handleSubmit}>Add to List</button>
+				</form>
+			</div>
+		</>
 	);
 };
 
